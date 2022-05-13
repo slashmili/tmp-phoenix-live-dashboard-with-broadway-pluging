@@ -1,9 +1,6 @@
 defmodule MyApp.Broadway do
   use Broadway
 
-  alias Broadway.Message
-  require Logger
-
   def start_link(_opts) do
     Broadway.start_link(__MODULE__,
       name: __MODULE__,
@@ -13,7 +10,7 @@ defmodule MyApp.Broadway do
       ],
       processors: [
         default: [
-          concurrency: 10
+          concurrency: 3
         ]
       ]
     )
@@ -35,20 +32,14 @@ defmodule MyApp.Broadway do
   end
 
   defp call_me(message) do
-    # Logger.info("#{inspect(self())}: producing data #{inspect(message)}")
-    #    Process.sleep(2000)
-
-    if rem(message.metadata.partition, 2) == 0 do
-      Logger.info("#{inspect(self())}: producing data #{inspect(message.metadata.partition)}")
-      throw(:boo)
-    end
+    Process.sleep(100)
   end
 
   def create_message do
     spawn(fn ->
       key = fn -> :crypto.strong_rand_bytes(16) |> Base.encode16() end
 
-      Enum.each(1..100, fn i ->
+      Enum.each(1..100_000, fn i ->
         :brod.produce_sync(:foo_producer, "event.foo", :hash, key.(), "body #{i}")
       end)
     end)

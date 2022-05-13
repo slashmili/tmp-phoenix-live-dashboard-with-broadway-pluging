@@ -45,7 +45,7 @@ defmodule MyApp.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
-      {:broadway_kafka, github: "dashbitco/broadway_kafka", branch: "jv-max-demand-prod"},
+      {:broadway_kafka, github: "dashbitco/broadway_kafka"},
       {:broadway_dashboard, "~> 0.2.0"},
       {:plug_cowboy, "~> 2.5"}
     ]
